@@ -5,7 +5,7 @@ Sage is a work in progress right now. Feel free to follow the project. I am deve
 ### Install
 To install python extensions in Burp you will need Jython. Follow the instructions from here (Step Initial Setup): [Burp Python Extension](https://laconicwolf.com/2018/04/13/burp-extension-python-tutorial/)
 
-Right now there are no requirements in the requirements.txt so you can load the botto extension directly.
+Right now there are no requirements in the requirements.txt so you can load the extension directly.
 You will have to load the `main.py` through the Extension option in Burp.
 
 ### Usage
