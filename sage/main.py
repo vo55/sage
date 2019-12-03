@@ -7,6 +7,8 @@ from burp import \
     IMessageEditorTabFactory  # Provides rendering or editing of HTTP messages, within within the created tab
 from exception_fix import FixBurpExceptions  # Used to make the error messages easier to debug
 import sys  # Used to write exceptions for exceptions_fix.py debugging
+from sage import banner_parser
+
 
 class BurpExtender(IBurpExtender, IMessageEditorTabFactory):
     ''' Implements IBurpExtender for hook into burp and inherit base classes.
@@ -76,22 +78,14 @@ class DisplayValues(IMessageEditorTab):
             return False
         else:
             responseInfo = self._extender._helpers.analyzeResponse(content)
-            headers = responseInfo.getHeaders()
-
-            server_header = [header for header in headers if header.find("Server:") != -1]
-            if server_header:
-                self._server = server_header[0].split()[1:]
-                self._server = ' '.join(self._server)
-
+            self._parser = banner_parser.BannerParser(responseInfo.getHeaders())
             return True
 
     def setMessage(self, content, isRequest):
         ''' Shows the message in the tab if not none
         '''
         text = ""
-        if self._backend:
-            text += "\nBackend: {}".format(self._backend)
-        if self._server:
+        if self._parser.get_server():
             text += "\nServer: {}".format(self._server)
         self._text = text
         self._txtInput.setText(text)
